@@ -1,0 +1,23 @@
+# Variáveis Obrigatórias
+bucket_name = "coloque-seu-bucket-aqui"
+eks_iam_user_name = "seu-usuario-admin-eks"
+eks_cluster_name = "eks-cluster-fiap-12soat-fase3"
+
+# Variáveis para API Gateway e Lambda
+lambda_terraform_state_bucket = "fiap-12soat-terraform-state"
+lambda_terraform_state_key = "lambda-auth/terraform.tfstate"
+jwt_issuer = "OficinaMecanicaApi"
+jwt_audience = "AuthorizedServices"
+
+# Variáveis Opcionais
+# aws_region   = "us-east-1"
+# availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+# environment  = "Dev"
+# project_name       = "FIAP 12SOAT Fase 3"
+# project_identifier = "fiap-12soat-fase3"
+# cidr_vpc = "10.0.0.0/16"
+# eks_node_instance_types = ["t3.small"]
+# eks_node_disk_size      = 20
+# eks_node_scaling_desired_size   = 2
+# eks_node_scaling_max_size       = 3
+# eks_node_scaling_min_size       = 1

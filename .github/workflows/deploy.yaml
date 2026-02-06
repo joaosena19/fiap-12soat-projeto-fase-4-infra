@@ -1,0 +1,66 @@
+name: Deploy Infraestrutura AWS
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  deploy-infrastructure:
+    name: Deploy Infrastructure
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
+      - name: Inicializar Terraform
+        working-directory: ./infra
+        run: terraform init
+
+      - name: Validar Terraform
+        working-directory: ./infra
+        run: terraform validate
+
+      - name: Planejar Terraform
+        working-directory: ./infra
+        env:
+          TF_VAR_aws_region: ${{ env.AWS_REGION }}
+          TF_VAR_bucket_name: ${{ secrets.TF_VAR_BUCKET_NAME }}
+          TF_VAR_eks_iam_user_name: ${{ secrets.TF_VAR_EKS_IAM_USER_NAME }}
+          TF_VAR_eks_cluster_name: ${{ secrets.TF_VAR_EKS_CLUSTER_NAME }}
+          TF_VAR_eks_node_scaling_desired_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_DESIRED_SIZE }}
+          TF_VAR_eks_node_scaling_max_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_MAX_SIZE }}
+          TF_VAR_eks_node_scaling_min_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_MIN_SIZE }}
+          TF_VAR_jwt_issuer: ${{ secrets.JWT_ISSUER }}
+          TF_VAR_jwt_audience: ${{ secrets.JWT_AUDIENCE }}
+          TF_VAR_new_relic_license_key: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+        run: terraform plan -out=tfplan
+
+      - name: Aplicar Terraform
+        working-directory: ./infra
+        env:
+          TF_VAR_aws_region: ${{ env.AWS_REGION }}
+          TF_VAR_bucket_name: ${{ secrets.TF_VAR_BUCKET_NAME }}
+          TF_VAR_eks_iam_user_name: ${{ secrets.TF_VAR_EKS_IAM_USER_NAME }}
+          TF_VAR_eks_cluster_name: ${{ secrets.TF_VAR_EKS_CLUSTER_NAME }}
+          TF_VAR_eks_node_scaling_desired_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_DESIRED_SIZE }}
+          TF_VAR_eks_node_scaling_max_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_MAX_SIZE }}
+          TF_VAR_eks_node_scaling_min_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_MIN_SIZE }}
+          TF_VAR_jwt_issuer: ${{ secrets.JWT_ISSUER }}
+          TF_VAR_jwt_audience: ${{ secrets.JWT_AUDIENCE }}
+          TF_VAR_new_relic_license_key: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+        run: terraform apply -auto-approve tfplan

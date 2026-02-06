@@ -5,23 +5,55 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test-sonarqube:
+  terraform-validation:
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Análise SonarQube
-        uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Verificar mudanças na pasta infra
+        id: changes
+        run: |
+          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -q '^infra/'; then
+            echo "infra_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "infra_changed=false" >> $GITHUB_OUTPUT
+          fi
 
-  ci-gate:
-    needs: [test-sonarqube]
-    runs-on: ubuntu-latest
-    steps:
-      - name: CI Gate
-        run: echo "CI bem sucedida"
+      - name: Configurar credenciais AWS
+        if: steps.changes.outputs.infra_changed == 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Configurar Terraform
+        if: steps.changes.outputs.infra_changed == 'true'
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
+      - name: Inicializar Terraform
+        if: steps.changes.outputs.infra_changed == 'true'
+        run: terraform init
+        working-directory: ./infra
+
+      - name: Validar configuração do Terraform
+        if: steps.changes.outputs.infra_changed == 'true'
+        run: terraform validate
+        working-directory: ./infra
+
+      - name: Resumo da validação
+        if: steps.changes.outputs.infra_changed == 'true'
+        run: echo "Validação do Terraform concluída com sucesso."
+        
+      - name: Nenhuma mudança na infraestrutura
+        if: steps.changes.outputs.infra_changed == 'false'
+        run: echo "Sem alterações detectadas na pasta infra/ - pulando validação do Terraform."
