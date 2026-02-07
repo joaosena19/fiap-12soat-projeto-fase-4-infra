@@ -54,3 +54,24 @@ output "ordemservico_target_group_arn" {
   description = "ARN do Target Group do Ordem de Serviço Service"
   value       = aws_lb_target_group.ordemservico_tg.arn
 }
+
+# SQS Queue outputs
+output "sqs_estoque_reducao_solicitacao_url" {
+  description = "URL da fila SQS de solicitação de redução de estoque"
+  value       = aws_sqs_queue.estoque_reducao_solicitacao.url
+}
+
+output "sqs_estoque_reducao_solicitacao_arn" {
+  description = "ARN da fila SQS de solicitação de redução de estoque"
+  value       = aws_sqs_queue.estoque_reducao_solicitacao.arn
+}
+
+output "sqs_estoque_reducao_resultado_url" {
+  description = "URL da fila SQS de resultado de redução de estoque"
+  value       = aws_sqs_queue.estoque_reducao_resultado.url
+}
+
+output "sqs_estoque_reducao_resultado_arn" {
+  description = "ARN da fila SQS de resultado de redução de estoque"
+  value       = aws_sqs_queue.estoque_reducao_resultado.arn
+}
