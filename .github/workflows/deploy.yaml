@@ -22,6 +22,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Verificar conectividade com AWS
+        run: |
+          aws sts get-caller-identity
+          echo "✅ Conectividade com AWS verificada"
+
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v3
         with:

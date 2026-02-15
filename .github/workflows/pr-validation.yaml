@@ -6,6 +6,7 @@ on:
 
 jobs:
   terraform-validation:
+    name: Terraform Validation
     runs-on: ubuntu-latest
     
     permissions:
@@ -57,3 +58,38 @@ jobs:
       - name: Nenhuma mudança na infraestrutura
         if: steps.changes.outputs.infra_changed == 'false'
         run: echo "Sem alterações detectadas na pasta infra/ - pulando validação do Terraform."
+
+  sonarcloud:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necessário para SonarCloud
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=joaosena19_fiap-12soat-projeto-fase-4-infra
+            -Dsonar.organization=joaosena19
+
+  ci-gate:
+    name: CI Gate
+    runs-on: ubuntu-latest
+    needs: [terraform-validation, sonarcloud]
+    if: always()
+    steps:
+      - name: Verificar resultados
+        run: |
+          if [ "${{ needs.terraform-validation.result }}" != "success" ] || [ "${{ needs.sonarcloud.result }}" != "success" ]; then
+            echo "❌ CI Gate falhou: terraform-validation=${{ needs.terraform-validation.result }}, sonarcloud=${{ needs.sonarcloud.result }}"
+            exit 1
+          fi
+          echo "✅ CI Gate aprovado"
