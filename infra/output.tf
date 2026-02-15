@@ -34,9 +34,20 @@ output "nlb_arn" {
   value       = aws_lb.eks_nlb.arn
 }
 
-output "nlb_listener_arn" {
-  description = "ARN do listener do Network Load Balancer"
-  value       = aws_lb_listener.eks_listener.arn
+# Listener ARN outputs for microservices
+output "cadastro_listener_arn" {
+  description = "ARN do Listener do Cadastro Service"
+  value       = aws_lb_listener.cadastro_listener.arn
+}
+
+output "estoque_listener_arn" {
+  description = "ARN do Listener do Estoque Service"
+  value       = aws_lb_listener.estoque_listener.arn
+}
+
+output "ordemservico_listener_arn" {
+  description = "ARN do Listener do Ordem de Serviço Service"
+  value       = aws_lb_listener.ordemservico_listener.arn
 }
 
 # Target Group outputs for microservices

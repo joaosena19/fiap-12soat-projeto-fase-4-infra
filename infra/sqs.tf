@@ -2,13 +2,13 @@
 
 # Fila para requests de redução de estoque (OrdemServico -> Estoque)
 resource "aws_sqs_queue" "estoque_reducao_solicitacao" {
-  name                       = "fase4-estoque-reducao-estoque-solicitacao"
+  name                       = var.sqs_estoque_reducao_solicitacao_name
   visibility_timeout_seconds = 120  # > timeout do consumer (1min)
   message_retention_seconds  = 60  # 60s para auto-expirar mensagens não processadas (evita ghost deductions)
   receive_wait_time_seconds  = 20  # long polling
   
   tags = {
-    Name                  = "fase4-estoque-reducao-estoque-solicitacao"
+    Name                  = var.sqs_estoque_reducao_solicitacao_name
     ProjectIdentifier     = var.project_identifier
     Service               = "messaging"
     Environment           = var.environment
@@ -17,13 +17,13 @@ resource "aws_sqs_queue" "estoque_reducao_solicitacao" {
 
 # Fila para resultados da redução de estoque (Estoque -> OrdemServico)
 resource "aws_sqs_queue" "estoque_reducao_resultado" {
-  name                       = "fase4-estoque-reducao-estoque-resultado"
+  name                       = var.sqs_estoque_reducao_resultado_name
   visibility_timeout_seconds = 120
   message_retention_seconds  = 86400
   receive_wait_time_seconds  = 20
   
   tags = {
-    Name                  = "fase4-estoque-reducao-estoque-resultado"
+    Name                  = var.sqs_estoque_reducao_resultado_name
     ProjectIdentifier     = var.project_identifier
     Service               = "messaging"
     Environment           = var.environment

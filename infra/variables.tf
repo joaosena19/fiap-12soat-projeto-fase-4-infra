@@ -30,13 +30,13 @@ variable "environment" {
 variable "project_name" {
   description = "Nome do projeto para ser usado em tags."
   type        = string
-  default     = "FIAP 12SOAT Fase 3"
+  default     = "FIAP 12SOAT Fase 4"
 }
 
 variable "project_identifier" {
   description = "Identificador único do projeto para ser usado em tags."
   type        = string
-  default     = "fiap-12soat-fase3"
+  default     = "fiap-12soat-fase4"
 }
 
 variable "cidr_vpc" {
@@ -78,7 +78,7 @@ variable "eks_node_scaling_max_size" {
 variable "lambda_terraform_state_bucket" {
   description = "Nome do bucket S3 onde está o tfstate da Lambda"
   type        = string
-  default     = "fiap-12soat-fase3-joao-dainese"
+  default     = "fiap-12soat-fase4-joao-dainese"
 }
 
 variable "lambda_terraform_state_key" {
@@ -108,4 +108,16 @@ variable "new_relic_license_key" {
   description = "Chave de licença do New Relic para monitoramento do cluster"
   type        = string
   sensitive   = true
+}
+
+variable "sqs_estoque_reducao_solicitacao_name" {
+  description = "Nome da fila SQS de solicitação de redução de estoque"
+  type        = string
+  default     = "fase4-estoque-reducao-estoque-solicitacao"
+}
+
+variable "sqs_estoque_reducao_resultado_name" {
+  description = "Nome da fila SQS de resultado de redução de estoque"
+  type        = string
+  default     = "fase4-estoque-reducao-estoque-resultado"
 }
