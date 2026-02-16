@@ -1,11 +1,11 @@
-# Obrigatórias
+# Obrigatorias
 variable "bucket_name" {
-  description = "O nome único para o bucket S3. Deve ser globalmente único."
+  description = "O nome unico para o bucket S3. Deve ser globalmente unico."
   type        = string
 }
 
 variable "eks_iam_user_name" {
-  description = "Nome do usuário IAM que controlará o EKS e será associado às políticas de acesso do cluster."
+  description = "Nome do usuario IAM que controlara o EKS e sera associado as politicas de acesso do cluster."
   type        = string
 }
 
@@ -16,7 +16,7 @@ variable "eks_cluster_name" {
 
 # Opcionais
 variable "aws_region" {
-  description = "A região da AWS onde os recursos serão criados."
+  description = "A regiao da AWS onde os recursos serao criados."
   type        = string
   default     = "us-east-1"
 }
@@ -34,7 +34,7 @@ variable "project_name" {
 }
 
 variable "project_identifier" {
-  description = "Identificador único do projeto para ser usado em tags."
+  description = "Identificador unico do projeto para ser usado em tags."
   type        = string
   default     = "fiap-12soat-fase4"
 }
@@ -46,37 +46,37 @@ variable "cidr_vpc" {
 }
 
 variable "availability_zones" {
-  description = "Lista de zonas de disponibilidade na região escolhida onde as subnets serão criadas (deve combinar com aws_region)."
+  description = "Lista de zonas de disponibilidade na regiao escolhida onde as subnets serao criadas (deve combinar com aws_region)."
   type        = list(string)
   default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 variable "eks_node_instance_types" {
-  description = "Lista de tipos de instância para os nós do EKS."
+  description = "Lista de tipos de instancia para os nos do EKS."
   type        = list(string)
   default     = ["t3.small"]
 }
 
 variable "eks_node_disk_size" {
-  description = "Tamanho do disco em GB a ser anexado a cada nó do EKS."
+  description = "Tamanho do disco em GB a ser anexado a cada no do EKS."
   type        = number
   default     = 20
 }
 
 variable "eks_node_scaling_desired_size" {
-  description = "Número desejado de nós no grupo do EKS."
+  description = "Numero desejado de nos no grupo do EKS."
   type        = number
   default     = 2
 }
 
 variable "eks_node_scaling_max_size" {
-  description = "Número máximo de nós no grupo do EKS."
+  description = "Numero maximo de nos no grupo do EKS."
   type        = number
   default     = 3
 }
-# Variáveis para API Gateway e Lambda
+# Variaveis para API Gateway e Lambda
 variable "lambda_terraform_state_bucket" {
-  description = "Nome do bucket S3 onde está o tfstate da Lambda"
+  description = "Nome do bucket S3 onde esta o tfstate da Lambda"
   type        = string
   default     = "fiap-12soat-fase4-joao-dainese"
 }
@@ -94,30 +94,30 @@ variable "jwt_issuer" {
 }
 
 variable "jwt_audience" {
-  description = "Audiência do token JWT (deve ser igual ao configurado na Lambda)"
+  description = "Audiencia do token JWT (deve ser igual ao configurado na Lambda)"
   type        = string
   default     = "AuthorizedServices"
 }
 variable "eks_node_scaling_min_size" {
-  description = "Número mínimo de nós no grupo do EKS."
+  description = "Numero minimo de nos no grupo do EKS."
   type        = number
   default     = 1
 }
 
 variable "new_relic_license_key" {
-  description = "Chave de licença do New Relic para monitoramento do cluster"
+  description = "Chave de licenca do New Relic para monitoramento do cluster"
   type        = string
   sensitive   = true
 }
 
 variable "sqs_estoque_reducao_solicitacao_name" {
-  description = "Nome da fila SQS de solicitação de redução de estoque"
+  description = "Nome da fila SQS de solicitacao de reducao de estoque"
   type        = string
   default     = "fase4-estoque-reducao-estoque-solicitacao"
 }
 
 variable "sqs_estoque_reducao_resultado_name" {
-  description = "Nome da fila SQS de resultado de redução de estoque"
+  description = "Nome da fila SQS de resultado de reducao de estoque"
   type        = string
   default     = "fase4-estoque-reducao-estoque-resultado"
 }

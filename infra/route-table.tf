@@ -7,20 +7,20 @@ resource "aws_route_table" "route_table_publica" {
   }
 
   route {
-    cidr_block = "0.0.0.0/0" # Rota padrão para todo o tráfego IPv4
+    cidr_block = "0.0.0.0/0" # Rota padrao para todo o trafego IPv4
     gateway_id = aws_internet_gateway.internet_gateway.id
   }
 
   tags = {
-    Name              = "Route Table Pública"
+    Name              = "Route Table Publica"
     ProjectIdentifier = var.project_identifier
   }
 }
 
 resource "aws_route_table_association" "route_table_association" {
-  # A expressão 'for_each' transforma a lista de subnets em um mapa.
-  # O resultado real para o Terraform será um mapa onde a key é o index
-  # e o value é o objeto completo da subnet, com todos os seus atributos:
+  # A expressao 'for_each' transforma a lista de subnets em um mapa.
+  # O resultado real para o Terraform sera um mapa onde a key e o index
+  # e o value e o objeto completo da subnet, com todos os seus atributos:
   # {
   #   "0" = { id = "subnet-0a1b2c3d...", arn = "...", cidr_block = "10.0.0.0/20", availability_zone = "us-east-1a", ... },
   #   "1" = { id = "subnet-0e1f2g3h...", arn = "...", cidr_block = "10.0.16.0/20", availability_zone = "us-east-1b", ... },

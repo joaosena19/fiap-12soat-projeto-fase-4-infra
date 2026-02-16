@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "bucket_fiap_fase4" {
   bucket = var.bucket_name
 
   lifecycle {
-    prevent_destroy = true # Como o próprio tfstate está no bucket, previnimos que ele seja destruído acidentalmente
+    prevent_destroy = true # Como o proprio tfstate esta no bucket, previnimos que ele seja destruido acidentalmente
   }
 
   tags = {

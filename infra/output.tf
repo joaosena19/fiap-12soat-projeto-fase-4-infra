@@ -9,12 +9,12 @@ output "vpc_principal_id" {
 }
 
 output "subnet_publica_cidrs" {
-  description = "Blocos CIDR das subnets públicas"
+  description = "Blocos CIDR das subnets publicas"
   value       = aws_subnet.subnet_publica[*].cidr_block
 }
 
 output "subnet_publica_ids" {
-  description = "IDs das subnets públicas"
+  description = "IDs das subnets publicas"
   value       = aws_subnet.subnet_publica[*].id
 }
 
@@ -46,7 +46,7 @@ output "estoque_listener_arn" {
 }
 
 output "ordemservico_listener_arn" {
-  description = "ARN do Listener do Ordem de Serviço Service"
+  description = "ARN do Listener do Ordem de Servico Service"
   value       = aws_lb_listener.ordemservico_listener.arn
 }
 
@@ -62,27 +62,27 @@ output "estoque_target_group_arn" {
 }
 
 output "ordemservico_target_group_arn" {
-  description = "ARN do Target Group do Ordem de Serviço Service"
+  description = "ARN do Target Group do Ordem de Servico Service"
   value       = aws_lb_target_group.ordemservico_tg.arn
 }
 
 # SQS Queue outputs
 output "sqs_estoque_reducao_solicitacao_url" {
-  description = "URL da fila SQS de solicitação de redução de estoque"
+  description = "URL da fila SQS de solicitacao de reducao de estoque"
   value       = aws_sqs_queue.estoque_reducao_solicitacao.url
 }
 
 output "sqs_estoque_reducao_solicitacao_arn" {
-  description = "ARN da fila SQS de solicitação de redução de estoque"
+  description = "ARN da fila SQS de solicitacao de reducao de estoque"
   value       = aws_sqs_queue.estoque_reducao_solicitacao.arn
 }
 
 output "sqs_estoque_reducao_resultado_url" {
-  description = "URL da fila SQS de resultado de redução de estoque"
+  description = "URL da fila SQS de resultado de reducao de estoque"
   value       = aws_sqs_queue.estoque_reducao_resultado.url
 }
 
 output "sqs_estoque_reducao_resultado_arn" {
-  description = "ARN da fila SQS de resultado de redução de estoque"
+  description = "ARN da fila SQS de resultado de reducao de estoque"
   value       = aws_sqs_queue.estoque_reducao_resultado.arn
 }

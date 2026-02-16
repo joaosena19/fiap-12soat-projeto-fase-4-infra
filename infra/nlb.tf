@@ -181,7 +181,7 @@ resource "aws_autoscaling_attachment" "ordemservico_asg_attachment" {
   depends_on = [aws_eks_node_group.eks_node_group]
 }
 
-# Regra para permitir que o NLB acesse os nós do EKS nas portas dos NodePorts
+# Regra para permitir que o NLB acesse os nos do EKS nas portas dos NodePorts
 resource "aws_security_group_rule" "allow_nlb_to_eks_nodes" {
   type        = "ingress"
   description = "Permitir trafego do NLB para os nos do EKS nas portas 30081-30083"
@@ -189,16 +189,16 @@ resource "aws_security_group_rule" "allow_nlb_to_eks_nodes" {
   to_port     = 30083
   protocol    = "tcp"
 
-  # A origem é o Security Group do NLB
+  # A origem e o Security Group do NLB
   source_security_group_id = aws_security_group.nlb_sg.id
 
-  # O destino é o Security Group automático do Cluster EKS (onde os nós estão)
+  # O destino e o Security Group automatico do Cluster EKS (onde os nos estao)
   security_group_id = aws_eks_cluster.eks_cluster.vpc_config[0].cluster_security_group_id
 
   depends_on = [aws_eks_cluster.eks_cluster]
 }
 
-# Regra adicional para permitir que toda a VPC acesse NodePorts nos nós EKS
+# Regra adicional para permitir que toda a VPC acesse NodePorts nos nos EKS
 resource "aws_security_group_rule" "allow_vpc_to_cluster_nodeport" {
   type              = "ingress"
   from_port         = 30081

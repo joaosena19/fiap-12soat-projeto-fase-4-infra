@@ -6,7 +6,7 @@ resource "aws_subnet" "subnet_publica" {
   availability_zone       = var.availability_zones[count.index]
 
   tags = {
-    Name              = "Subnet Pública ${count.index + 1}"
+    Name              = "Subnet Publica ${count.index + 1}"
     ProjectIdentifier = var.project_identifier
   }
 }
