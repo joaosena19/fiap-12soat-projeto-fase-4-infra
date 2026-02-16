@@ -1,3 +1,8 @@
+import {
+  to = aws_s3_bucket.bucket_fiap_fase4
+  id = var.bucket_name
+}
+
 resource "aws_s3_bucket" "bucket_fiap_fase4" {
   bucket = var.bucket_name
 
