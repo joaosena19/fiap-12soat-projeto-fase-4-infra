@@ -12,14 +12,25 @@ env:
 
 jobs:
   destroy:
-    name: Destruir Infrastructure
+    name: Destruir Infraestrutura
     runs-on: ubuntu-latest
-    
+    env:
+      TF_VAR_aws_region: us-east-1
+      TF_VAR_bucket_name: ${{ secrets.TF_VAR_BUCKET_NAME }}
+      TF_VAR_eks_iam_user_name: ${{ secrets.TF_VAR_EKS_IAM_USER_NAME }}
+      TF_VAR_eks_cluster_name: ${{ secrets.TF_VAR_EKS_CLUSTER_NAME }}
+      TF_VAR_eks_node_scaling_desired_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_DESIRED_SIZE }}
+      TF_VAR_eks_node_scaling_max_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_MAX_SIZE }}
+      TF_VAR_eks_node_scaling_min_size: ${{ secrets.TF_VAR_EKS_NODE_SCALING_MIN_SIZE }}
+      TF_VAR_jwt_issuer: ${{ secrets.JWT_ISSUER }}
+      TF_VAR_jwt_audience: ${{ secrets.JWT_AUDIENCE }}
+      TF_VAR_new_relic_license_key: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+
     steps:
       - name: Validar confirmação
         run: |
           if [ "${{ github.event.inputs.confirm }}" != "destroy" ]; then
-            echo "Confirmação falhou. Você deve digitar 'destroy' para prosseguir."
+            echo "❌ Confirmação falhou. Você deve digitar 'destroy' para prosseguir."
             exit 1
           fi
 
@@ -42,10 +53,10 @@ jobs:
         working-directory: ./infra
         run: terraform init
 
-      - name: Listar recursos do Terraform
+      - name: Listar todos os recursos antes do destroy
         working-directory: ./infra
         run: |
-          echo "Listando recursos do Terraform state..."
+          echo "📋 Recursos gerenciados pelo Terraform:"
           terraform state list
 
       - name: Destruir recursos específicos (exceto bucket)
@@ -76,6 +87,7 @@ jobs:
             "aws_iam_policy"
             "aws_sqs_queue"
             "aws_eks_node_group"
+            "aws_eks_access_policy_association"
             "aws_eks_access_entry"
             "aws_eks_cluster"
             "aws_route_table_association"
