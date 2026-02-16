@@ -100,7 +100,7 @@ resource "aws_lb_target_group" "estoque_tg" {
 
 # Target Group para OrdemServico (porta 30083)
 resource "aws_lb_target_group" "ordemservico_tg" {
-  name        = "${var.project_identifier}-ordemservico-tg"
+  name        = "${var.project_identifier}-ordem-svc-tg"
   port        = 30083
   protocol    = "TCP"
   vpc_id      = aws_vpc.vpc_principal.id
@@ -117,7 +117,7 @@ resource "aws_lb_target_group" "ordemservico_tg" {
   }
 
   tags = {
-    Name = "${var.project_identifier}-ordemservico-tg"
+    Name = "${var.project_identifier}-ordem-svc-tg"
   }
 }
 
