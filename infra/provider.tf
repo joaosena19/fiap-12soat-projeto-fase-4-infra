@@ -15,7 +15,7 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Configuração do Helm para conectar no EKS
+# Configuracao do Helm para conectar no EKS
 provider "helm" {
   kubernetes {
     host                   = aws_eks_cluster.eks_cluster.endpoint

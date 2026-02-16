@@ -5,7 +5,7 @@ resource "helm_release" "newrelic_bundle" {
   namespace        = "newrelic"
   create_namespace = true
 
-  # Configurações globais
+  # Configuracoes globais
   set {
     name  = "global.licenseKey"
     value = var.new_relic_license_key
@@ -22,7 +22,7 @@ resource "helm_release" "newrelic_bundle" {
     value = "true"
   }
 
-  # Habilita Prometheus (para métricas avançadas do K8s)
+  # Habilita Prometheus (para metricas avancadas do K8s)
   set {
     name  = "prometheus.enabled"
     value = "true"
@@ -34,7 +34,7 @@ resource "helm_release" "newrelic_bundle" {
     value = "true"
   }
   
-  # Garante que só instala depois que os Nodes estiverem prontos
+  # Garante que so instala depois que os Nodes estiverem prontos
   depends_on = [
     aws_eks_node_group.eks_node_group
   ]
