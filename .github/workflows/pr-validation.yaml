@@ -71,7 +71,7 @@ jobs:
           fetch-depth: 0  # Necessário para SonarCloud
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -79,6 +79,7 @@ jobs:
           args: >
             -Dsonar.projectKey=joaosena19_fiap-12soat-projeto-fase-4-infra
             -Dsonar.organization=joaosena19
+            -Dsonar.host.url=https://sonarcloud.io
 
   ci-gate:
     name: CI Gate
